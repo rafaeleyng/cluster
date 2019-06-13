@@ -1,17 +1,11 @@
 # raspberry-pi
+
 My raspberry-pi setup
 
+## my raspberries
 
-## hardware
-
-Modelo: raspberry pi zero w
-Architecture: ARMv6
-
-Review (from https://www.androidauthority.com/raspberry-pi-zero-w-review-756498/):
-
-It is a fully working 32-bit computer with a 1 GHz ARMv6 single core microprocessor (ARM1176) , a VideoCore 4 GPU, and 512 MB of memory. The GPU is capable of driving a full HD display at 60 fps
-
-The Zero W uses the Cypress CYW43438 wireless chip as Raspberry Pi 3 Model B meaning it has 802.11n wireless LAN and Bluetooth 4.0 connectivity
+- [pi0](./my-raspberries/pi0.md)
+- [pi1](./my-raspberries/pi1.md)
 
 
 ## OS
