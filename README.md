@@ -11,8 +11,8 @@ My raspberry-pi setup
 ## OS
 
 Raspbian Stretch Lite - Minimal image based on Debian Stretch
-Version: November 2018
-Release date: 2018-11-13
+Version: April 2019
+Release date: 2019-04-08
 Kernel version: 4.14
 
 Installation steps:
@@ -21,63 +21,34 @@ https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
 
 ```
 pi@raspberrypi:~ $ uname -a
-Linux raspberrypi 4.14.79+ #1159 Sun Nov 4 17:28:08 GMT 2018 armv6l GNU/Linux
+Linux raspberrypi 4.14.98+ #1200 Tue Feb 12 20:11:02 GMT 2019 armv6l GNU/Linux
 ```
 
-## hostname
-
-Hostname: raspberrypi.local
-
-
-## user
+## user (for all raspberries)
 
 - user: pi
-- password: raspberry
+- password: pi (default is `raspberry`)
 
 https://www.raspberrypi.org/documentation/linux/usage/users.md
 
-## ssh
-
-```shell
-ssh pi@raspberrypi.local
-```
-
-### passwordless ssh
+## passwordless ssh
 
 https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md
 
 
-## static IP
-
-Set to 192.168.0.50/24.
-
-From https://raspberrypi.stackexchange.com/a/74428/77623
-
-```shell
-cat >> /etc/dhcpcd.conf << EOL
-interface wlan0
-static ip_address=192.168.0.50/24
-static routers=192.168.0.1
-static domain_name_servers=8.8.8.8 8.8.4.4
-EOL
-```
-
-## docker-machine
+<!-- ## docker-machine
 
 ### on Raspberry Pi
 
-1. install docker
+1.
   ```shell
+  # install docker
   sudo apt-get install docker-ce=18.06.1~ce~3-0~raspbian
-  ```
 
-1. change the OS's ID:
-  ```shell
+  # change the OS's ID
   sudo sed -i 's/ID=raspbian/ID=debian/g' /etc/os-release
-  ```
 
-1. add my user to `docker` group so I don't have to `sudo` the commands:
-  ```shell
+  # add my user to `docker` group so I don't have to `sudo` the commands
   sudo usermod -aG docker pi
   ```
 
@@ -107,7 +78,7 @@ EOL
 1. point commands back to main machine
   ```
   eval $(docker-machine env -u)
-  ```
+  ``` -->
 
 ## running apps
 
@@ -116,7 +87,7 @@ EOL
 https://github.com/rafaeleyng/my-remote
 
 
-### pihole
+<!-- ### pihole
 
 http://pi.local/admin/
 
@@ -148,4 +119,19 @@ docker run -d \
 
 echo -n "Your password for https://${IP}/admin/ is "
 docker logs pihole 2> /dev/null | grep 'password:'
-```
+``` -->
+
+<!-- ## static IP
+
+Set to 192.168.0.50/24.
+
+From https://raspberrypi.stackexchange.com/a/74428/77623
+
+```shell
+cat >> /etc/dhcpcd.conf << EOL
+interface wlan0
+static ip_address=192.168.0.50/24
+static routers=192.168.0.1
+static domain_name_servers=8.8.8.8 8.8.4.4
+EOL
+``` -->
