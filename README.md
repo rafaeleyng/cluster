@@ -1,11 +1,11 @@
-# raspberry-pi
+# cluster
 
-My raspberry-pi setup
+My home cluster setup
 
-## my raspberries
+## devices
 
-- [pi0](./my-raspberries/pi0.md)
-- [pi1](./my-raspberries/pi1.md)
+- [pi0](./devices/pi0.md)
+- [pi1](./devices/pi1.md)
 
 
 ## OS
