@@ -26,12 +26,21 @@ Like the Pi Zero, it also has:
 - Composite video and reset headers
 - CSI camera connector
 
+## power
+
+The recommended is 5V, 2.5A.
+
+- https://cdn.shopify.com/s/files/1/0176/3274/files/T5875DV.PDF
+- https://www.raspberrypi.org/forums/viewtopic.php?t=186027
+- https://thepihut.com/products/official-raspberry-pi-universal-power-supply
+- https://www.raspberrypi.org/documentation/faqs/#pi-power
+
 ## review
 
 from https://www.androidauthority.com/raspberry-pi-zero-w-review-756498/:
 
-It is a fully working 32-bit computer with a 1 GHz ARMv6 single core microprocessor (ARM1176), a VideoCore 4 GPU, and 512 MB of memory. The GPU is capable of driving a full HD display at 60 fps
+> It is a fully working 32-bit computer with a 1 GHz ARMv6 single core microprocessor (ARM1176), a VideoCore 4 GPU, and 512 MB of memory. The GPU is capable of driving a full HD display at 60 fps
 
-The Zero W uses the Cypress CYW43438 wireless chip as Raspberry Pi 3 Model B meaning it has 802.11n wireless LAN and Bluetooth 4.0 connectivity
+> The Zero W uses the Cypress CYW43438 wireless chip as Raspberry Pi 3 Model B meaning it has 802.11n wireless LAN and Bluetooth 4.0 connectivity
 
 ---
