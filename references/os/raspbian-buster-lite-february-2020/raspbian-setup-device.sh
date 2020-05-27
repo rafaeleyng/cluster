@@ -4,20 +4,18 @@ set -e
 
 SYSTEM=$(uname -s)
 DARWIN="Darwin"
-if [ "$SYSTEM" != "$DARWIN" ]; then
+if [ "$SYSTEM" = "$DARWIN" ]; then
   echo "this script is not mean to be run on your my own machine, but in the raspberry pi instead"
   exit 1
 fi
 
-DEVICE_NAME=$1
 if [ -z "$DEVICE_NAME" ]; then
-  echo "device name is required as first arg"
+  echo "DEVICE_NAME env is required"
   exit 1
 fi
 
-PASSWORD=$2
 if [ -z "$PASSWORD" ]; then
-  echo "password is required as second arg"
+  echo "PASSWORD env is required"
   exit 1
 fi
 

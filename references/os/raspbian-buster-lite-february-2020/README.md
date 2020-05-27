@@ -48,7 +48,9 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - burn the custom image to the SD with Raspberry Pi Imager
 - startup the raspberry pi with the SD card
 - ssh into the device: `ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local`
-- run setup script: `sudo bash <(curl -s https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh) <device-name> <device-password>`
+- run setup script: `curl -sL https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh | sudo bash - <device-name> <device-password>`
+
+- run setup script: `DEVICE_NAME=pi0 bash <(curl -s https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh)`
 
 
 ## references
