@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# this script is meant to be run in the machine you are building the custom image, not in the raspberry pi itself
+
 set -e
 
-source .wifi
+. .wifi
 
 cd /Volumes/boot
 

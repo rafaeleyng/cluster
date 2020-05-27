@@ -31,11 +31,11 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - go to the folder where this current README is.
   - create a `.wifi` file containing:
     ```sh
-    ssid="TODO" # your wifi SSID
-    psk="TODO"  # your wifi password
+    export ssid="TODO" # your wifi SSID
+    export psk="TODO"  # your wifi password
     ```
 
-  - run `./customize-raspbian.sh`.
+  - run `./raspbian-customize-image.sh`.
 
 - run `diskutil list` an locate the SD card (the one with the `Windows_FAT_32 boot` partition). It was `/dev/disk2` when I did this.
 
@@ -46,6 +46,9 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 ## installation
 
 - burn the custom image to the SD with Raspberry Pi Imager
+- startup the raspberry pi with the SD card
+- ssh into the device: `ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local`
+
 
 ## references
 
