@@ -2,11 +2,52 @@
 
 set -e
 
-echo TODO
+SYSTEM=$(uname -s)
+DARWIN="Darwin"
+if [ "$SYSTEM" != "$DARWIN" ]; then
+  echo "this script is not mean to be run on your my own machine, but in the raspberry pi instead"
+  exit 1
+fi
 
-echo "arg 0: $0"
-echo "arg 1: $1"
-echo "arg 2: $2"
-echo "arg 3: $3"
+DEVICE_NAME=$1
+if [ -z "$DEVICE_NAME" ]; then
+  echo "device name is required as first arg"
+  exit 1
+fi
 
-echo DONE
+PASSWORD=$2
+if [ -z "$PASSWORD" ]; then
+  echo "password is required as second arg"
+  exit 1
+fi
+
+# setup hostname
+echo "$DEVICE_NAME" | sudo tee /etc/hostname
+sudo hostname "$DEVICE_NAME"
+
+# setup hosts
+# thanks:
+# - https://www.raspberrypi.org/forums/viewtopic.php?t=15315
+# - https://linuxhandbook.com/sudo-unable-resolve-host/
+# 1 - cleanup in case of reruning
+sudo sed -i -e 's/^.*hostname-setter.*$//g' /etc/hosts
+# 2 - add the new device name, so we don't get errors
+echo "127.0.1.1       $DEVICE_NAME ### Set by hostname-setter"  | sudo tee -a /etc/hosts
+# 3 - cleanup old hostname
+sudo sed -i -e 's/^.*raspberrypi.*$//g' /etc/hosts
+
+# generate ~/.ssh folder (after setup hosts, because uses that value)
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa 2>/dev/null <<< y >/dev/null
+
+# set my personal public key as authorized key
+curl https://github.com/rafaeleyng.keys > authorized_keys
+
+# change password - thanks https://askubuntu.com/a/80447/384952
+# NOTE: I don't care about this password being exposed, see the README for more info
+usermod --password "$(echo $PASSWORD | openssl passwd -1 -stdin)" pi
+
+# disable ssh password authentication
+sudo sed 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+
+# reboot to apply hostname changes
+sudo reboot

@@ -9,9 +9,9 @@ http://downloads.raspberrypi.org/raspbian/release_notes.txt
 
 ## user and default password
 
-pi / raspberry
+- default: `pi / raspberry` (https://www.raspberrypi.org/documentation/linux/usage/users.md)
 
-https://www.raspberrypi.org/documentation/linux/usage/users.md
+This is changed in the setup script.
 
 ## custom image
 
@@ -48,6 +48,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - burn the custom image to the SD with Raspberry Pi Imager
 - startup the raspberry pi with the SD card
 - ssh into the device: `ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local`
+- run setup script: `sudo bash <(curl -s https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh) <device-name> <device-password>`
 
 
 ## references
