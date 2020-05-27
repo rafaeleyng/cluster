@@ -35,13 +35,12 @@ echo "127.0.1.1       $DEVICE_NAME ### Set by hostname-setter"  | sudo tee -a /e
 sudo sed -i -e 's/^.*raspberrypi.*$//g' /etc/hosts
 
 # generate ~/.ssh folder (after setup hosts, because uses that value)
-ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa 2>/dev/null <<< y >/dev/null
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa 2>/dev/null >/dev/null
 
 # set my personal public key as authorized key
-curl https://github.com/rafaeleyng.keys > authorized_keys
+curl https://github.com/rafaeleyng.keys > ~/.ssh/authorized_keys
 
 # change password - thanks https://askubuntu.com/a/80447/384952
-# NOTE: I don't care about this password being exposed, see the README for more info
 usermod --password "$(echo $PASSWORD | openssl passwd -1 -stdin)" pi
 
 # disable ssh password authentication
