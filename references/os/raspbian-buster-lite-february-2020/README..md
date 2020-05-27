@@ -7,6 +7,12 @@ size: 434 MB
 
 http://downloads.raspberrypi.org/raspbian/release_notes.txt
 
+## user and default password
+
+pi / raspberry
+
+https://www.raspberrypi.org/documentation/linux/usage/users.md
+
 ## custom image
 
 I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configured), following these steps
