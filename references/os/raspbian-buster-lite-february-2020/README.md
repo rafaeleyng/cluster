@@ -15,40 +15,37 @@ https://www.raspberrypi.org/documentation/linux/usage/users.md
 
 ## custom image
 
-I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configured), following these steps
+I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configured), following these steps:
 
-1. download the base image:
-
+- download the base image:
   - direct link: https://downloads.raspberrypi.org/raspbian_lite_latest
   - https://www.raspberrypi.org/downloads/raspbian/
 
-2. download Raspberry Pi Imager to burn the image:
-
+- download Raspberry Pi Imager to burn the image:
   - direct link: https://downloads.raspberrypi.org/imager/imager.dmg
   - https://github.com/raspberrypi/rpi-imager
   - https://www.raspberrypi.org/downloads/
 
-3. burn the base image to the SD card
+- burn the base image to the SD card.
 
-4. go to the folder where this current README is
-
-  1. create a `.wifi` file containing:
+- go to the folder where this current README is.
+  - create a `.wifi` file containing:
     ```sh
     ssid="TODO" # your wifi SSID
     psk="TODO"  # your wifi password
     ```
 
-  2. run `./customize-raspbian.sh`
+  - run `./customize-raspbian.sh`.
 
-5. run `diskutil list` an locate the SD card (the one with the `Windows_FAT_32 boot` partition). It was `/dev/disk2` when I did this.
+- run `diskutil list` an locate the SD card (the one with the `Windows_FAT_32 boot` partition). It was `/dev/disk2` when I did this.
 
-6. run `sudo fdisk /dev/disk2`, locate and sum the the `start` (532480) and `size` (3080192) of the last non-empty partition, and sum 100 to have some margin for error. For me, it was 3612673.
+- run `sudo fdisk /dev/disk2`, locate and sum the the `start` (532480) and `size` (3080192) of the last non-empty partition, and sum 100 to have some margin for error. For me, it was 3612673.
 
-7. create the image with `sudo dd if=/dev/disk2 of=/Users/rafael/Desktop/2020-02-13-raspbian-buster-lite-rafael.img bs=512 count=3612772`
+- create the image with `sudo dd if=/dev/disk2 of=/Users/rafael/Desktop/2020-02-13-raspbian-buster-lite-rafael.img bs=512 count=3612772`
 
 ## installation
 
-1. burn the custom image to the SD with Raspberry Pi Imager
+- burn the custom image to the SD with Raspberry Pi Imager
 
 ## references
 
