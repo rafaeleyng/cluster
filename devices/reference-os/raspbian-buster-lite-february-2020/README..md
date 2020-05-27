@@ -36,9 +36,9 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 
 1. run `diskutil list` an locate the SD card (the one with the `Windows_FAT_32 boot` partition). It was `/dev/disk2` when I did this.
 
-1. run `sudo fdisk /dev/disk2`, locate and sum the the `start` (532480) and `size` (3080192) of the last non-empty partition, and sum 1 to have some margin for error. For me, it was 3612673.
+1. run `sudo fdisk /dev/disk2`, locate and sum the the `start` (532480) and `size` (3080192) of the last non-empty partition, and sum 100 to have some margin for error. For me, it was 3612673.
 
-1. create the image with `sudo dd if=/dev/disk2 of=/Users/rafael/Desktop/2020-02-13-raspbian-buster-lite-rafael.img bs=512 count=3612673`
+1. create the image with `sudo dd if=/dev/disk2 of=/Users/rafael/Desktop/2020-02-13-raspbian-buster-lite-rafael.img bs=512 count=3612772`
 
 ## installation
 
