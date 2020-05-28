@@ -56,6 +56,14 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   sudo DEVICE_NAME=<TODO> PASSWORD=<TODO> ./raspbian-setup-device.sh
   sudo reboot # to apply hostname changes
   ```
+- before rebooting, you can check whether everyting is fine with:
+  ```sh
+  hostname
+  cat /etc/hostname
+  cat /etc/hosts
+  cat /etc/ssh/sshd_config | grep PasswordAuthentication
+  cat ~/.ssh/authorized_keys
+  ```
 
 ## references
 

@@ -21,8 +21,8 @@ fi
 
 # setup hostname
 echo "START setup hostname"
-echo "$DEVICE_NAME" | sudo tee /etc/hostname
-sudo hostname "$DEVICE_NAME"
+echo "$DEVICE_NAME" | tee /etc/hostname
+hostname "$DEVICE_NAME"
 echo "DONE  setup hostname"
 
 # setup hosts
@@ -32,30 +32,30 @@ echo "DONE  setup hostname"
 # 1 - cleanup in case of reruning
 echo "START setup hosts 1"
 set +e
-sudo sed -i -e 's/^.*hostname-setter.*$//g' /etc/hosts
+sed -i -e 's/^.*hostname-setter.*$//g' /etc/hosts
 set -e
 echo "DONE  setup hosts 1"
 
 # 2 - add the new device name, so we don't get errors
 echo "START setup hosts 2"
-echo "127.0.1.1       $DEVICE_NAME ### Set by hostname-setter"  | sudo tee -a /etc/hosts
+echo "127.0.1.1       $DEVICE_NAME ### Set by hostname-setter"  | tee -a /etc/hosts
 echo "DONE  setup hosts 2"
 
 # 3 - cleanup old hostname
 echo "START setup hosts 1"
-sudo sed -i -e 's/^.*raspberrypi.*$//g' /etc/hosts
-sudo sed -i '/^[[:space:]]*$/d' /etc/hosts
+sed -i -e 's/^.*raspberrypi.*$//g' /etc/hosts
+sed -i '/^[[:space:]]*$/d' /etc/hosts
 echo "DONE  setup hosts 3"
 
-# generate ~/.ssh folder (after setup hosts, because uses that value)
+# generate .ssh folder (after setup hosts, because uses that value)
 echo "START generate ssh folder"
-rm -fr ~/.ssh
-ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa 2>/dev/null >/dev/null
+rm -fr /home/pi/.ssh
+mkdir /home/pi/.ssh
 echo "DONE  generate ssh folder"
 
 # set my personal public key as authorized key
 echo "START add public key"
-curl https://github.com/rafaeleyng.keys > ~/.ssh/authorized_keys
+curl https://github.com/rafaeleyng.keys > /home/pi/.ssh/authorized_keys
 echo "DONE  add public key"
 
 # change password - thanks https://askubuntu.com/a/80447/384952
@@ -65,5 +65,5 @@ echo "DONE  set password"
 
 # disable ssh password authentication
 echo "START disable ssh password authentication"
-sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
 echo "DONE  disable ssh password authentication"
