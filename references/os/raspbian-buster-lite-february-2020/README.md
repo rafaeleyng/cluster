@@ -54,6 +54,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   curl https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh --output raspbian-setup-device.sh
   chmod 755 raspbian-setup-device.sh
   sudo DEVICE_NAME=<TODO> PASSWORD=<TODO> ./raspbian-setup-device.sh
+  sudo reboot # to apply hostname changes
   ```
 
 ## references
