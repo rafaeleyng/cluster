@@ -7,7 +7,7 @@
 
 http://downloads.raspberrypi.org/raspbian/release_notes.txt
 
-## user and default password
+## default credentials
 
 - default: `pi / raspberry` (https://www.raspberrypi.org/documentation/linux/usage/users.md)
 
@@ -51,7 +51,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - run the setup script:
   ```sh
   # NOTE: set the variables in the last command
-  curl https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh --output raspbian-setup-device.sh
+  curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh --output raspbian-setup-device.sh
   chmod 755 raspbian-setup-device.sh
   sudo DEVICE_NAME=<TODO> PASSWORD=<TODO> ./raspbian-setup-device.sh
   sudo reboot # to apply hostname changes
@@ -62,7 +62,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   cat /etc/hostname
   cat /etc/hosts
   cat /etc/ssh/sshd_config | grep PasswordAuthentication
-  cat ~/.ssh/authorized_keys
+  cat /home/pi/.ssh/authorized_keys
   ```
 
 ## references
