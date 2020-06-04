@@ -46,17 +46,24 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 ## installation
 
 - burn the custom image to the SD with Raspberry Pi Imager
+
 - startup the raspberry pi with the SD card
-- ssh into the device: `ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local`
+
+- ssh into the device:
+  ```sh
+  ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local
+  ```
+
 - run the setup script:
   ```sh
-  # NOTE: set the variables in the last command
   curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/references/os/raspbian-buster-lite-february-2020/raspbian-setup-device.sh --output raspbian-setup-device.sh
   chmod 755 raspbian-setup-device.sh
-  sudo DEVICE_NAME=<TODO> PASSWORD=<TODO> ./raspbian-setup-device.sh
-  sudo reboot # to apply hostname changes
+  # NOTE: set the variables before running
+  sudo DEVICE_NAME= PASSWORD= ./raspbian-setup-device.sh
+  rm raspbian-setup-device.sh
   ```
-- before rebooting, you can check whether everyting is fine with:
+
+- check the config:
   ```sh
   hostname
   cat /etc/hostname
@@ -65,10 +72,37 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   cat /home/pi/.ssh/authorized_keys
   ```
 
+- install Docker:
+  ```sh
+  # this will fail, but is expected
+  sudo curl -sL get.docker.com | bash
+
+  # this fixes the failure
+  cd /tmp
+  wget https://packagecloud.io/Hypriot/rpi/packages/raspbian/buster/containerd.io_1.2.6-1_armhf.deb/download.deb
+  sudo dpkg -i download.deb
+  sudo rm download.deb
+  sudo systemctl restart docker
+
+  sudo usermod -a -G docker pi
+  ```
+
+- reboot to apply hostname changes:
+  ```sh
+  sudo reboot
+  ```
+
+- test Docker:
+  ```sh
+  docker --version
+  docker run arm32v5/hello-world
+  ```
+
 ## references
 
 - https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
 - https://medium.com/@decrocksam/building-your-custom-raspbian-image-8b54a24f814e
 - https://desertbot.io/blog/headless-raspberry-pi-3-bplus-ssh-wifi-setup
+- https://markmcgookin.com/2019/08/04/how-to-install-docker-on-a-raspberry-pi-zero-w-running-raspbian-buster/
 
 ---
