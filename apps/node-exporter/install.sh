@@ -23,6 +23,9 @@ ExecStart=/usr/local/bin/node_exporter --collector.textfile.directory /var/lib/n
 WantedBy=multi-user.target
 EOT
 
+# https://github.com/fahlke/raspberrypi_exporter
+curl -fsSL "https://raw.githubusercontent.com/fahlke/raspberrypi_exporter/master/installer.sh" | sudo bash
+
 systemctl daemon-reload
 systemctl enable node_exporter.service
 systemctl start node_exporter.service

@@ -72,7 +72,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   cat /home/pi/.ssh/authorized_keys
   ```
 
-- install Docker:
+- install Docker (see https://markmcgookin.com/2019/08/04/how-to-install-docker-on-a-raspberry-pi-zero-w-running-raspbian-buster/):
   ```sh
   # this will fail, but is expected
   sudo curl -sL get.docker.com | bash
