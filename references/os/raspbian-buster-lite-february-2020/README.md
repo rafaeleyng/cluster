@@ -74,17 +74,20 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 
 - install Docker (see https://markmcgookin.com/2019/08/04/how-to-install-docker-on-a-raspberry-pi-zero-w-running-raspbian-buster/):
   ```sh
-  # this will fail, but is expected
+  # on Pi Zero this will fail, but is expected
   sudo curl -sL get.docker.com | bash
 
+  sudo usermod -a -G docker pi
+  ```
+
+- **only for Raspberry Pi Zero**:
+  ```sh
   # this fixes the failure
   cd /tmp
   wget https://packagecloud.io/Hypriot/rpi/packages/raspbian/buster/containerd.io_1.2.6-1_armhf.deb/download.deb
   sudo dpkg -i download.deb
   sudo rm download.deb
   sudo systemctl restart docker
-
-  sudo usermod -a -G docker pi
   ```
 
 - reboot to apply hostname changes:
