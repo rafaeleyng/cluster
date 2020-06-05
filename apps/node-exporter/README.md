@@ -1,9 +1,10 @@
 # prometheus node-exporter
 
 ```sh
-curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/node-exporter-install.sh --output node-exporter-install.sh
+curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/install.sh --output node-exporter-install.sh
 chmod 755 node-exporter-install.sh
 sudo ./node-exporter-install.sh
+rm ./node-exporter-install.sh
 ```
 
 ## references
