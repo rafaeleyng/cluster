@@ -98,7 +98,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - test Docker:
   ```sh
   docker --version
-  docker run arm32v5/hello-world
+  docker run --rm arm32v5/hello-world
   ```
 
 ## references

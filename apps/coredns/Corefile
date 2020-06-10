@@ -1,4 +1,11 @@
 .:53 {
     log
     errors
+    forward . 8.8.8.8
+}
+
+cluster.rafael.:53 {
+    log
+    errors
+    file db.cluster.rafael
 }
