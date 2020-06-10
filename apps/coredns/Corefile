@@ -1,12 +1,18 @@
 .:53 {
-    cache
+    cache {
+      denial 9984 60
+    }
     errors
     forward . 8.8.8.8
     log
+    health
+    prometheus
 }
 
 cluster.rafael.:53 {
     errors
     file db.cluster.rafael
     log
+    health
+    prometheus
 }

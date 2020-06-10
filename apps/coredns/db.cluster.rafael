@@ -11,9 +11,10 @@ $ORIGIN cluster.rafael.
 @    IN    NS    ns1
 
 ; name servers - A records
-ns1.cluster.rafael.    IN    A    192.168.1.102
+ns1.cluster.rafael.     IN    A    192.168.1.102
 
 ; 192.168.1.0/8 - A records
-pi0.cluster.rafael.    IN    A    192.168.1.100
-pi1.cluster.rafael.    IN    A    192.168.1.101
-pi2.cluster.rafael.    IN    A    192.168.1.102
+pi0.cluster.rafael.     IN    A    192.168.1.100
+pi1.cluster.rafael.     IN    A    192.168.1.101
+pi2.cluster.rafael.     IN    A    192.168.1.102
+rafael1.cluster.rafael. IN    A    192.168.1.131
