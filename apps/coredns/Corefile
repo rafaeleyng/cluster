@@ -1,11 +1,12 @@
 .:53 {
-    log
+    cache
     errors
     forward . 8.8.8.8
+    log
 }
 
 cluster.rafael.:53 {
-    log
     errors
     file db.cluster.rafael
+    log
 }

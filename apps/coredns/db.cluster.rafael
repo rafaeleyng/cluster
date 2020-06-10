@@ -14,6 +14,6 @@ $ORIGIN cluster.rafael.
 ns1.cluster.rafael.    IN    A    192.168.1.102
 
 ; 192.168.1.0/8 - A records
-pi0.cluster.rafael    IN    A    192.168.1.100
-pi1.cluster.rafael    IN    A    192.168.1.101
-pi2.cluster.rafael    IN    A    192.168.1.102
+pi0.cluster.rafael.    IN    A    192.168.1.100
+pi1.cluster.rafael.    IN    A    192.168.1.101
+pi2.cluster.rafael.    IN    A    192.168.1.102
