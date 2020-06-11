@@ -11,15 +11,24 @@
 | pi2      | 192.168.1.102 |
 | rafael1  | 192.168.1.131 |
 
-2. run on `pi2` (because it is configured to be the name server):
+2. run on `pi2` (because it is configured to be the name server on my router):
   ```sh
-  docker create --name coredns -p 53:53/udp -p 8080:8080 -p 9153:9153 coredns/coredns
   curl -H 'Cache-Control: no-cache' -O https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/coredns/Corefile
   curl -H 'Cache-Control: no-cache' -O https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/coredns/db.cluster.rafael
+  docker create --name coredns -p 53:53/udp -p 8080:8080 -p 9153:9153 --restart=always coredns/coredns
   docker cp Corefile coredns:/Corefile
   docker cp db.cluster.rafael coredns:/db.cluster.rafael
-  docker start coredns
+  docker restart coredns
+  rm Corefile db.cluster.rafael
   ```
+
+## configure the router to use the DNS server
+
+My router is an Archer C60
+
+Configure in the "DHCP" menu, not in the "Internet" menu, like this (just use the appropriate IP):
+
+[configuration](https://i.imgur.com/Dng3IiV.png)
 
 ## references
 

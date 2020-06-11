@@ -6,7 +6,7 @@
     forward . 8.8.8.8
     log
     health
-    prometheus
+    prometheus 0.0.0.0:9153
 }
 
 cluster.rafael.:53 {
@@ -14,5 +14,5 @@ cluster.rafael.:53 {
     file db.cluster.rafael
     log
     health
-    prometheus
+    prometheus 0.0.0.0:9153
 }
