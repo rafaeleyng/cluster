@@ -15,10 +15,13 @@ import (
 	"github.com/prometheus/common/expfmt"
 )
 
-const dnsZone = "cluster.rafael"
-const nodeExporterJob = "node-exporter"
-const targetMetric = "node_uname_info"
-const targetLabel = "nodename"
+type Options struct {
+	dnsZone      string
+	jobPrefix    string
+	outputPath   string
+	targetLabel  string
+	targetMetric string
+}
 
 type Node struct {
 	Name string
@@ -92,24 +95,24 @@ func scanNetwork() (*nmap.Run, error) {
 	return result, nil
 }
 
-func getNodeName(metricFamiliesMap map[string]*dto.MetricFamily) (string, error) {
-	metricFamily, ok := metricFamiliesMap[targetMetric]
+func getNodeName(metricFamiliesMap map[string]*dto.MetricFamily, options Options) (string, error) {
+	metricFamily, ok := metricFamiliesMap[options.targetMetric]
 	if !ok {
-		return "", fmt.Errorf("metric %s (which contains the nodename label) was not found", targetMetric)
+		return "", fmt.Errorf("metric %s (which contains the nodename label) was not found", options.targetMetric)
 	}
 
 	metric := metricFamily.GetMetric()[0]
 
 	for _, labelPair := range metric.GetLabel() {
-		if *labelPair.Name == targetLabel {
+		if *labelPair.Name == options.targetLabel {
 			return *labelPair.Value, nil
 		}
 	}
 
-	return "", fmt.Errorf("label %s was not found", targetLabel)
+	return "", fmt.Errorf("label %s was not found", options.targetLabel)
 }
 
-func buildNodes(scanResult *nmap.Run) ([]Node, error) {
+func buildNodes(scanResult *nmap.Run, options Options) ([]Node, error) {
 	nodes := []Node{}
 
 	for _, host := range scanResult.Hosts {
@@ -133,7 +136,7 @@ func buildNodes(scanResult *nmap.Run) ([]Node, error) {
 		if err != nil {
 			return nil, err
 		}
-		nodeName, err := getNodeName(metricFamiliesMap)
+		nodeName, err := getNodeName(metricFamiliesMap, options)
 
 		nodes = append(nodes, Node{Name: nodeName})
 	}
@@ -141,22 +144,22 @@ func buildNodes(scanResult *nmap.Run) ([]Node, error) {
 	return nodes, nil
 }
 
-func buildZonedHost(hostname string) string {
-	return fmt.Sprintf("%s.%s", hostname, dnsZone)
+func buildZonedHost(hostname string, options Options) string {
+	return fmt.Sprintf("%s.%s:9100", hostname, options.dnsZone)
 }
 
-func buildJobName(hostname string) string {
-	return fmt.Sprintf("%s-%s", hostname, nodeExporterJob)
+func buildJobName(hostname string, options Options) string {
+	return fmt.Sprintf("%s-%s", options.jobPrefix, hostname)
 }
 
-func createJobsFromNodes(nodes []Node) []Job {
+func createJobsFromNodes(nodes []Node, options Options) []Job {
 	jobs := []Job{}
 
 	for _, node := range nodes {
 		job := Job{
-			Targets: []string{buildZonedHost(node.Name)},
+			Targets: []string{buildZonedHost(node.Name, options)},
 			Labels: map[string]string{
-				"job": buildJobName(node.Name),
+				"job": buildJobName(node.Name, options),
 			},
 		}
 
@@ -166,10 +169,10 @@ func createJobsFromNodes(nodes []Node) []Job {
 	return jobs
 }
 
-func writeFileSD(nodes []Node, outputPath string) error {
-	jobs := createJobsFromNodes(nodes)
+func writeFileSD(nodes []Node, options Options) error {
+	jobs := createJobsFromNodes(nodes, options)
 
-	file, err := os.Create(outputPath)
+	file, err := os.Create(options.outputPath)
 	if err != nil {
 		return err
 	}
@@ -185,28 +188,45 @@ func writeFileSD(nodes []Node, outputPath string) error {
 	return nil
 }
 
+func watch(options Options) {
+	for {
+		fmt.Println("[node-scan] watch")
+		scanResult, err := scanNetwork()
+		if err != nil {
+			fmt.Printf("failed to scan network: %v", err)
+			time.Sleep(30 * time.Second)
+			continue
+		}
+
+		nodes, err := buildNodes(scanResult, options)
+		if err != nil {
+			fmt.Printf("failed to build nodes: %v", err)
+			time.Sleep(30 * time.Second)
+			continue
+		}
+
+		err = writeFileSD(nodes, options)
+		if err != nil {
+			fmt.Printf("failed to write file SD: %v", err)
+			time.Sleep(30 * time.Second)
+			continue
+		}
+
+		fmt.Printf("did write file SD: %d nodes found (%v) in %3f seconds\n", len(scanResult.Hosts), nodes, scanResult.Stats.Finished.Elapsed)
+		time.Sleep(60 * time.Second)
+	}
+}
+
 func main() {
-	var outputPath = ""
-	flag.StringVar(&outputPath, "output", "/tmp/nodes.json", "")
+	fmt.Println("[node-scan] starting")
+	options := Options{}
+
+	flag.StringVar(&options.dnsZone, "zone", "cluster.rafael", "")
+	flag.StringVar(&options.jobPrefix, "job-prefix", "node-exporter", "")
+	flag.StringVar(&options.outputPath, "output", "/tmp/nodes.json", "")
+	flag.StringVar(&options.targetLabel, "label", "nodename", "")
+	flag.StringVar(&options.targetMetric, "metric", "node_uname_info", "")
 	flag.Parse()
 
-	scanResult, err := scanNetwork()
-	if err != nil {
-		fmt.Printf("failed to scan network: %v", err)
-		return
-	}
-
-	nodes, err := buildNodes(scanResult)
-	if err != nil {
-		fmt.Printf("failed to build nodes: %v", err)
-		return
-	}
-
-	err = writeFileSD(nodes, outputPath)
-	if err != nil {
-		fmt.Printf("failed to write file SD: %v", err)
-		return
-	}
-
-	fmt.Printf("did write file SD: %d nodes found (%v) in %3f seconds\n", len(scanResult.Hosts), nodes, scanResult.Stats.Finished.Elapsed)
+	watch(options)
 }

@@ -15,7 +15,7 @@
   ```sh
   curl -H 'Cache-Control: no-cache' -O https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/coredns/Corefile
   curl -H 'Cache-Control: no-cache' -O https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/coredns/db.cluster.rafael
-  docker create --name coredns -p 53:53/udp -p 8080:8080 -p 9153:9153 --restart=always coredns/coredns
+  docker create --name coredns -p 53:53 -p 53:53/udp -p 8080:8080 -p 9153:9153 --restart=always coredns/coredns
   docker cp Corefile coredns:/Corefile
   docker cp db.cluster.rafael coredns:/db.cluster.rafael
   docker restart coredns

@@ -1,4 +1,4 @@
-module github.com/rafaeleyng/cluster/applications/prometheus-nmap
+module github.com/rafaeleyng/cluster/apps/prometheus/node-scan
 
 go 1.14
 
