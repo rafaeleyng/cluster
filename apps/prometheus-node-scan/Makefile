@@ -1,5 +1,5 @@
 docker-build:
-	docker build -t prometheus-node-scan .
+	DOCKER_BUILDKIT=1 docker build -t prometheus-node-scan .
 
 docker-run: docker-build
 	-docker rm -f prometheus-node-scan
