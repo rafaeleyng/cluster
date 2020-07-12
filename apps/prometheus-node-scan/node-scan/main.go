@@ -193,26 +193,26 @@ func watch(options Options) {
 		fmt.Println("[node-scan] watch")
 		scanResult, err := scanNetwork()
 		if err != nil {
-			fmt.Printf("failed to scan network: %v", err)
+			fmt.Printf("failed to scan network: %v\n", err)
 			time.Sleep(30 * time.Second)
 			continue
 		}
 
 		nodes, err := buildNodes(scanResult, options)
 		if err != nil {
-			fmt.Printf("failed to build nodes: %v", err)
+			fmt.Printf("failed to build nodes: %v\n", err)
 			time.Sleep(30 * time.Second)
 			continue
 		}
 
 		err = writeFileSD(nodes, options)
 		if err != nil {
-			fmt.Printf("failed to write file SD: %v", err)
+			fmt.Printf("failed to write file SD: %v\n", err)
 			time.Sleep(30 * time.Second)
 			continue
 		}
 
-		fmt.Printf("did write file SD: %d nodes found (%v) in %3f seconds\n", len(scanResult.Hosts), nodes, scanResult.Stats.Finished.Elapsed)
+		fmt.Printf("[%s] did write file SD: %d nodes found (%v) in %3f seconds\n", time.Now().Format("2006.01.02 15:04:05"), len(scanResult.Hosts), nodes, scanResult.Stats.Finished.Elapsed)
 		time.Sleep(60 * time.Second)
 	}
 }
@@ -223,7 +223,7 @@ func main() {
 
 	flag.StringVar(&options.dnsZone, "zone", "cluster.rafael", "")
 	flag.StringVar(&options.jobPrefix, "job-prefix", "node-exporter", "")
-	flag.StringVar(&options.outputPath, "output", "/tmp/nodes.json", "")
+	flag.StringVar(&options.outputPath, "output", "/tmp/prometheus-targets.json", "")
 	flag.StringVar(&options.targetLabel, "label", "nodename", "")
 	flag.StringVar(&options.targetMetric, "metric", "node_uname_info", "")
 	flag.Parse()

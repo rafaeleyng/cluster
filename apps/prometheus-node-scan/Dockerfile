@@ -16,18 +16,24 @@ EXPOSE 9090
 RUN apk update
 RUN apk add curl bash nmap
 
-RUN curl -LO https://github.com/prometheus/prometheus/releases/download/v2.19.0/prometheus-2.19.0.linux-amd64.tar.gz \
-    && tar -zxvf prometheus-2.19.0.linux-amd64.tar.gz \
-    && cp prometheus-2.19.0.linux-amd64/promtool /usr/local/bin/ \
-    && cp prometheus-2.19.0.linux-amd64/prometheus /usr/local/bin/ \
-    && cp -R prometheus-2.19.0.linux-amd64/console_libraries/ /etc/prometheus/ \
-    && cp -R prometheus-2.19.0.linux-amd64/consoles/ /etc/prometheus/ \
-    && rm -fr prometheus-2.19.0.linux-amd64*
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+ARG PROMETHEUS_VERSION=2.19.0
 
-RUN curl -LO https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.tgz \
-    && tar -zxvf forego-stable-linux-amd64.tgz \
+RUN curl -L -o prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.${TARGETOS}-${TARGETARCH}${TARGETVARIANT}.tar.gz \
+    && mkdir prometheus \
+    && tar -zxvf prometheus.tar.gz -C prometheus --strip-components 1 \
+    && cp prometheus/promtool /usr/local/bin/ \
+    && cp prometheus/prometheus /usr/local/bin/ \
+    && cp -R prometheus/console_libraries/ /etc/prometheus/ \
+    && cp -R prometheus/consoles/ /etc/prometheus/ \
+    && rm -fr prometheus*
+
+RUN curl -L -o forego.tgz https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-${TARGETOS}-${TARGETARCH}.tgz \
+    && tar -zxvf forego.tgz \
     && mv forego /usr/bin \
-    && rm -fr forego-stable-linux-amd64*
+    && rm -fr forego.tgz*
 
 COPY --from=build /src/node-scan/node-scan /usr/local/bin
 

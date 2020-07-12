@@ -98,7 +98,16 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - test Docker:
   ```sh
   docker --version
+  # it could use arm32v6 images, but the `hello-world` image only exists for v5 and v7
   docker run --rm arm32v5/hello-world
+  ```
+
+- **only for Raspberry Pi 2 B**:
+
+- test Docker:
+  ```sh
+  docker --version
+  docker run --rm arm32v7/hello-world
   ```
 
 ## references
