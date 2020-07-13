@@ -110,6 +110,26 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   docker run --rm arm32v7/hello-world
   ```
 
+## configure dockerd to listen to TCP connections
+
+from https://docs.docker.com/engine/install/linux-postinstall/#control-where-the-docker-daemon-listens-for-connections
+
+- `sudo systemctl edit docker.service` and add or modify the following lines:
+```
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+```
+- run:
+```
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
+```
+- check:
+```
+sudo netstat -lntp | grep dockerd
+```
+
 ## references
 
 - https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
