@@ -3,7 +3,7 @@
       denial 9984 60
     }
     errors
-    forward . 8.8.8.8
+    forward . 172.18.0.2:53
     log
     health
     prometheus :9153

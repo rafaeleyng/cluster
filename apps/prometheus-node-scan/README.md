@@ -7,7 +7,7 @@ This is a setup of [Prometheus](https://prometheus.io/) and the small app `node-
 TODO: add volume
 
 ```sh
-docker run -d --net host --name prometheus-node-scan --restart=always rafaeleyng/prometheus-node-scan
+docker run -d --net host --name prometheus-node-scan --restart=unless-stopped rafaeleyng/prometheus-node-scan
 ```
 
 ---
