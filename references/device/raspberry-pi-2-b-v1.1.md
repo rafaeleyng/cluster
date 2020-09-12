@@ -2,11 +2,7 @@
 
 ## architecture
 
-ARMv7
-
-## instruction set
-
-ARMv6Z (32-bit)
+ARMv7 (32-bit) - https://raspberrypi.stackexchange.com/questions/34715/is-raspbian-for-the-raspberry-pi-2-b-32-bit-or-a-64-bit-os
 
 ## specs
 

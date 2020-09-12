@@ -4,7 +4,7 @@ https://www.raspberrypi.org/products/raspberry-pi-zero-w/
 
 ## architecture
 
-ARMv6
+ARMv6 (32-bit)
 
 ## instruction set
 

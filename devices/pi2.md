@@ -1,6 +1,6 @@
 # pi2
 
-This is a [raspberry pi 2 b](../references/device/raspberry-pi-2-b.md)
+This is a [raspberry pi 2 b](../references/device/raspberry-pi-2-b-v1.1.md)
 
 ---
 
