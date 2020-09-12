@@ -8,14 +8,7 @@ It runs:
 
 ## setup
 
-1. first, I've setup static IPs, by the MAC addresses of my cluster devices
-
-| hostname | ip            |
-| -------- | ------------- |
-| pi0      | 192.168.1.100 |
-| pi1      | 192.168.1.101 |
-| pi2      | 192.168.1.102 |
-| rafael1  | 192.168.1.131 |
+1. first, I've setup static IPs, by the MAC addresses of my cluster devices according to https://gist.github.com/rafaeleyng/d3fabc5c09636016e1c9c09ad0f19c70
 
 2. create a docker network:
   ```
@@ -24,29 +17,61 @@ It runs:
 
 3. run the pihole:
   ```sh
-  docker run -d \
+  docker run \
+    --dns=8.8.4.4 \
+    --dns=8.8.8.8 \
+    --hostname pi.hole \
+    --ip 172.18.0.2 \
     --name pihole \
     --network dns-net \
-    --ip 172.18.0.2 \
-    -p 80:80 \
-    -p 443:443 \
-    -e TZ="America/Sao_Paulo" \
-    -v "$(pwd)/etc-pihole/:/etc/pihole/" \
-    -v "$(pwd)/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
-    --dns=8.8.8.8 --dns=8.8.4.4 \
     --restart=unless-stopped \
-    --hostname pi.hole \
-    -e VIRTUAL_HOST="pi.hole" \
+    -d \
     -e PROXY_LOCATION="pi.hole" \
     -e ServerIP="127.0.0.1" \
+    -e TZ="America/Sao_Paulo" \
+    -e VIRTUAL_HOST="pi.hole" \
+    -p 443:443 \
+    -p 80:80 \
+    -v "$(pwd)/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
+    -v "$(pwd)/etc-pihole/:/etc/pihole/" \
     pihole/pihole:v5.0
   ```
 
-4. run on `pi2` (because it is configured to be the name server on my router):
+4. run the pihole exporter (first obtain the token, check https://github.com/eko/pihole-exporter):
   ```sh
-  # ensure I have the latest config published
+  API_TOKEN=$(docker exec pihole awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf)
+  docker run \
+    --ip 172.18.0.4 \
+    --name pihole-exporter \
+    --network dns-net \
+    --restart=unless-stopped \
+    -d \
+    -e 'INTERVAL=30s' \
+    -e 'PIHOLE_HOSTNAME=172.18.0.2' \
+    -e 'PORT=9617' \
+    -e "PIHOLE_API_TOKEN=$API_TOKEN" \
+    -p 9617:9617 \
+    ekofr/pihole-exporter:0.0.9
+  ```
+
+5. ensure I have the updated coredns image published to Docker Hub:
+  ```sh
   make docker-build-and-push
-  docker run --network dns-net --ip 172.18.0.3 -d -p 53:53 -p 53:53/udp -p 8080:8080 -p 9153:9153 --name cluster-coredns --restart=unless-stopped rafaeleyng/cluster-coredns
+  ```
+
+6. run on `pi2` (because it is configured to be the name server on my router):
+  ```sh
+  docker run \
+    --ip 172.18.0.3 \
+    --name cluster-coredns \
+    --network dns-net \
+    --restart=unless-stopped \
+    -d \
+    -p 53:53 \
+    -p 53:53/udp \
+    -p 8080:8080 \
+    -p 9153:9153 \
+    rafaeleyng/cluster-coredns
   ```
 
 ## configure the router to use the DNS server
@@ -55,12 +80,10 @@ My router is an Archer C60
 
 Configure in the "DHCP" menu, not in the "Internet" menu, like this (just use the appropriate IP):
 
-- [configuration](https://i.imgur.com/Dng3IiV.png)
+- ![configuration](https://i.imgur.com/Dng3IiV.png)
 - ![configuration](https://user-images.githubusercontent.com/4842605/87379839-8a406200-c567-11ea-98ba-d1857651f908.png)
 
-> TP-Link router don´'t allow you to have dns server on the same sub domain. But you can fix it. Turn of DHCP and put in your ip to Pihole in the field for DNS. Turn the DHCP on and you are ready to go.
-
-2 Comments
+> TP-Link router don't allow you to have DNS server on the same sub domain. But you can fix it. Turn of DHCP and put in your ip to Pihole in the field for DNS. Turn the DHCP on and you are ready to go.
 
 ## references
 

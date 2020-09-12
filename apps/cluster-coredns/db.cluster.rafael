@@ -17,4 +17,6 @@ ns1.cluster.rafael.     IN    A    192.168.1.102
 pi0.cluster.rafael.     IN    A    192.168.1.100
 pi1.cluster.rafael.     IN    A    192.168.1.101
 pi2.cluster.rafael.     IN    A    192.168.1.102
+pi3.cluster.rafael.     IN    A    192.168.1.103
+rafael0.cluster.rafael. IN    A    192.168.1.130
 rafael1.cluster.rafael. IN    A    192.168.1.131

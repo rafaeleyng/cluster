@@ -6,8 +6,19 @@ This is a setup of [Prometheus](https://prometheus.io/) and the small app `node-
 
 TODO: add volume
 
-```sh
-docker run -d --net host --name prometheus-node-scan --restart=unless-stopped rafaeleyng/prometheus-node-scan
-```
+1. ensure I have the updated coredns image published to Docker Hub:
+  ```sh
+  make docker-build-and-push
+  ```
+
+2. run on the node:
+  ```sh
+  docker run \
+    --name prometheus-node-scan \
+    --net host \
+    --restart=unless-stopped \
+    -d \
+    rafaeleyng/prometheus-node-scan
+    ```
 
 ---
