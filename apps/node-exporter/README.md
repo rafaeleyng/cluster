@@ -1,15 +1,23 @@
 # prometheus node-exporter
 
-## install on raspbian nodes
+## install on armv6 with raspbian
 
 ```sh
-curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/install-raspbian.sh --output node-exporter-install.sh
+curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/install-armv6.sh --output node-exporter-install.sh
+chmod 755 node-exporter-install.sh
+sudo ./node-exporter-install.sh
+rm ./node-exporter-install.sh
+```
+## install on armv7 with raspbian
+
+```sh
+curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/install-armv7.sh --output node-exporter-install.sh
 chmod 755 node-exporter-install.sh
 sudo ./node-exporter-install.sh
 rm ./node-exporter-install.sh
 ```
 
-## install on mac nodes
+## install on mac
 
 ```sh
 curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/rafaeleyng/cluster/master/apps/node-exporter/install-mac.sh --output node-exporter-install.sh
@@ -17,7 +25,6 @@ chmod 755 node-exporter-install.sh
 sudo ./node-exporter-install.sh
 rm ./node-exporter-install.sh
 ```
-
 
 ## references
 

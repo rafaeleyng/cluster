@@ -1,9 +1,9 @@
 #!/bin/sh
 
-wget https://github.com/prometheus/node_exporter/releases/download/v1.0.0/node_exporter-1.0.0.linux-armv6.tar.gz
-tar xvfz node_exporter-1.0.0.linux-armv6.tar.gz
-mv ./node_exporter-1.0.0.linux-armv6/node_exporter /usr/local/bin
-rm -fr node_exporter-1.0.0.linux-armv6*
+wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-armv6.tar.gz
+tar xvfz node_exporter-1.0.1.linux-armv6.tar.gz
+mv ./node_exporter-1.0.1.linux-armv6/node_exporter /usr/local/bin
+rm -fr node_exporter-1.0.1.linux-armv6*
 
 # https://linuxhit.com/prometheus-node-exporter-on-raspberry-pi-how-to-install/
 useradd -m -s /bin/bash node_exporter

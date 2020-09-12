@@ -1,9 +1,9 @@
 #!/bin/sh
 
-wget https://github.com/prometheus/node_exporter/releases/download/v1.0.0/node_exporter-1.0.0.darwin-amd64.tar.gz
-tar xvfz node_exporter-1.0.0.darwin-amd64.tar.gz
-mv ./node_exporter-1.0.0.darwin-amd64/node_exporter /usr/local/bin
-rm -fr node_exporter-1.0.0.darwin-amd64*
+wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.darwin-amd64.tar.gz
+tar xvfz node_exporter-1.0.1.darwin-amd64.tar.gz
+mv ./node_exporter-1.0.1.darwin-amd64/node_exporter /usr/local/bin
+rm -fr node_exporter-1.0.1.darwin-amd64*
 
 cat <<EOT >> /Library/LaunchAgents/local.node_exporter.plist
 <?xml version="1.0" encoding="UTF-8"?>

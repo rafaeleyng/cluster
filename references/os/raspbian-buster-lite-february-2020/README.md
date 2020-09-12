@@ -52,6 +52,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
 - ssh into the device:
   ```sh
   ssh -o "UserKnownHostsFile /dev/null" pi@raspberrypi.local
+  # default password: raspberry
   ```
 
 - run the setup script:
@@ -80,7 +81,7 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   sudo usermod -a -G docker pi
   ```
 
-- **only for Raspberry Pi Zero**:
+- **(only for Raspberry Pi Zero)** downgrade containerd:
   ```sh
   # this fixes the failure
   cd /tmp
@@ -95,16 +96,19 @@ I'm creating my own image (with `ssh` and `wpa_supplicant.conf` already configur
   sudo reboot
   ```
 
-- test Docker:
+- ssh back to the device, now using the hostname
+  ```sh
+  ssh pi@<DEVICE_NAME>.local
+  ```
+
+- **(only for Raspberry Pi Zero)** test Docker:
   ```sh
   docker --version
   # it could use arm32v6 images, but the `hello-world` image only exists for v5 and v7
   docker run --rm arm32v5/hello-world
   ```
 
-- **only for Raspberry Pi 2 B**:
-
-- test Docker:
+- **(only for Raspberry Pi 2 B and Raspberry Pi 4)** test Docker:
   ```sh
   docker --version
   docker run --rm arm32v7/hello-world
