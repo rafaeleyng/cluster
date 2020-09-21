@@ -8,14 +8,15 @@ It runs:
 
 ## setup
 
-1. first, I've setup static IPs, by the MAC addresses of my cluster devices according to https://gist.github.com/rafaeleyng/d3fabc5c09636016e1c9c09ad0f19c70
+1. [on the router] I've setup static IPs, by the MAC addresses of my cluster devices according to https://gist.github.com/rafaeleyng/d3fabc5c09636016e1c9c09ad0f19c70
 
-2. create a docker network:
+2. [on the node] create a docker network:
   ```
   docker network create -d bridge --subnet=172.18.0.0/16 dns-net
   ```
 
-3. run the pihole:
+// TODO tirar volume do $(pwd)
+3. [on the node] run the pihole:
   ```sh
   docker run \
     --dns=8.8.4.4 \
@@ -37,7 +38,7 @@ It runs:
     pihole/pihole:v5.0
   ```
 
-4. run the pihole exporter (first obtain the token, check https://github.com/eko/pihole-exporter):
+4. [on the node] run the pihole exporter (first obtain the token, check https://github.com/eko/pihole-exporter):
   ```sh
   API_TOKEN=$(docker exec pihole awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf)
   docker run \
@@ -54,12 +55,12 @@ It runs:
     ekofr/pihole-exporter:0.0.9
   ```
 
-5. ensure I have the updated coredns image published to Docker Hub:
+5. [on the control plane] ensure I have the updated coredns image published to Docker Hub:
   ```sh
   make docker-build-and-push
   ```
 
-6. run on `pi2` (because it is configured to be the name server on my router):
+6. [on the node] run:
   ```sh
   docker run \
     --ip 172.18.0.3 \

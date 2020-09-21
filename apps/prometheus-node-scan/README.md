@@ -4,19 +4,23 @@ This is a setup of [Prometheus](https://prometheus.io/) and the small app `node-
 
 ## deploy
 
-TODO: add volume
+1. [on the node] create a volume (only once):
+  ```sh
+  docker volume create prometheus
+  ```
 
-1. ensure I have the updated coredns image published to Docker Hub:
+2. [on the control plane] ensure I have the updated prometheus-node-scan image published to Docker Hub:
   ```sh
   make docker-build-and-push
   ```
 
-2. run on the node:
+3. [on the node] run:
   ```sh
   docker run \
     --name prometheus-node-scan \
     --net host \
     --restart=unless-stopped \
+    --volume prometheus:/prometheus \
     -d \
     rafaeleyng/prometheus-node-scan
     ```
