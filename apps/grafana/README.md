@@ -2,6 +2,8 @@
 
 Default credentials are `admin`/`admin`.
 
+## deploy
+
 1. [on the node] create a volume (only once):
   ```sh
   docker volume create grafana
